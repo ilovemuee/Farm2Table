@@ -5,7 +5,11 @@ import SignupButton from '@/components/buttons/SignupButton';
 import InputTemplate from '@/components/inputs/InputTemplate';
 import SigninButton from '@/components/buttons/SigninButton';
 import DropdownMenu from '@/components/buttons/dropDown';
-
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import  {auth}  from '@/components/FireBase/firebase';
+import { setDoc } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
+import { db } from '@/components/FireBase/firebase';
 export default function SignUp() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -27,13 +31,26 @@ export default function SignUp() {
   const handleRoleChange = (option) => {
     setSelectedRole(option);
   };
-
+  const signUp = async (email, password, additionalData) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      // Store user data in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        ...additionalData
+      });
+  
+      console.log("User signed up and data stored in Firestore");
+    } catch (error) {
+      console.error("Error signing up:", error);
+    }
+  };
   const handleSignUp = () => {
-    // Handle sign-up logic here
-    console.log('Username:', username);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Selected Role:', selectedRole);
+    signUp(email,password,[username,selectedRole]);
+
+    
   };
 
   return (

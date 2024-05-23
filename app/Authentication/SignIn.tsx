@@ -2,12 +2,14 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { color } from '@/assets/config/color';
-import { auth } from '@/components/FireBase/firebase';
+import { app,auth } from '@/components/FireBase/firebase';
 import SigninButton from '@/components/buttons/SigninButton';
 import SignupButton from '@/components/buttons/SignupButton';
 import InputTemplate from '@/components/inputs/InputTemplate';
 import { useRouter } from 'expo-router';
 
+
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 
 export default function SignIn() {
@@ -26,7 +28,7 @@ export default function SignIn() {
   const signIn = async (email, password) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const user = userCredential.user
       
       console.log("User signed in:", user.email);
     } catch (error) {
