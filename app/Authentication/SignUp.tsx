@@ -64,9 +64,9 @@ export default function SignUp() {
       />
       <DropdownMenu
         options={['Farmer', 'Consumer', 'Admin']}
-        backgroundColor="#fff"
-        borderColor="#ccc"
-        buttonTextcolor="#000"
+        backgroundColor={color.white}
+        borderColor={color.gray}
+        buttonTextcolor={color.black}
         selectedOptionBackgroundColor="#f0f0f0"
         selectedOptionTextColor="#007BFF"
         onSelect={handleRoleChange}
